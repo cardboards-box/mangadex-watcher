@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33815.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MangaDexWatcher.Cli", "MangaDexWatcher.Cli\MangaDexWatcher.Cli.csproj", "{1718998B-172B-4F95-B71B-14C9FC6BE469}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MangaDexWatcher.Database", "MangaDexWatcher.Database\MangaDexWatcher.Database.csproj", "{439F4562-E4D3-48A8-BE00-FC38DE322A22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MangaDexWatcher.Core", "MangaDexWatcher.Core\MangaDexWatcher.Core.csproj", "{0F2016D3-7C9C-4556-BEDF-9789E0187C2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MangaDexWatcher", "MangaDexWatcher\MangaDexWatcher.csproj", "{42A78C78-3FFE-4EC0-9559-95F0D7912F5A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1718998B-172B-4F95-B71B-14C9FC6BE469}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1718998B-172B-4F95-B71B-14C9FC6BE469}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1718998B-172B-4F95-B71B-14C9FC6BE469}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1718998B-172B-4F95-B71B-14C9FC6BE469}.Release|Any CPU.Build.0 = Release|Any CPU
+		{439F4562-E4D3-48A8-BE00-FC38DE322A22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{439F4562-E4D3-48A8-BE00-FC38DE322A22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{439F4562-E4D3-48A8-BE00-FC38DE322A22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{439F4562-E4D3-48A8-BE00-FC38DE322A22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F2016D3-7C9C-4556-BEDF-9789E0187C2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F2016D3-7C9C-4556-BEDF-9789E0187C2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F2016D3-7C9C-4556-BEDF-9789E0187C2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F2016D3-7C9C-4556-BEDF-9789E0187C2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42A78C78-3FFE-4EC0-9559-95F0D7912F5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42A78C78-3FFE-4EC0-9559-95F0D7912F5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42A78C78-3FFE-4EC0-9559-95F0D7912F5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42A78C78-3FFE-4EC0-9559-95F0D7912F5A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {227AA966-C903-4DFB-A595-47FC3AA3496E}
+	EndGlobalSection
+EndGlobal
