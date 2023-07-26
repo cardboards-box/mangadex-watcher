@@ -396,3 +396,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/MangaDexWatcher/MangaDexWatcher.Cli/Properties/launchSettings.json
+/src/MangaDexWatcher.Cli/Properties/launchSettings.json
