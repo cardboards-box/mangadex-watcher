@@ -1,5 +1,6 @@
 ﻿namespace MangaDexWatcher.Client;
 
+using CardboardBox.Json;
 using StackExchange.Redis;
 using static Constants;
 
@@ -11,7 +12,7 @@ public interface IWatcherClient
     /// <summary>
     /// Watches for the latest chapters
     /// </summary>
-    IObservable<LatestChaptersEvent> Watch { get; }
+    IObservable<FetchedManga> Watch { get; }
 }
 
 /// <summary>
@@ -19,15 +20,15 @@ public interface IWatcherClient
 /// </summary>
 public class WatcherClient : IWatcherClient
 {
-    private IObservable<LatestChaptersEvent>? _watch;
+    private IObservable<FetchedManga>? _watch;
     private readonly IRedisService _redis;
 
     /// <summary>
     /// Watches for the latest chapters
     /// </summary>
-    public IObservable<LatestChaptersEvent> Watch => _watch 
+    public IObservable<FetchedManga> Watch => _watch 
         ??= ObserveSync()
-            .Where(t => t != null && t.Manga.Length > 0)
+            .Where(t => t != null)
             .Select(t => t!);
 
     /// <summary>
@@ -43,7 +44,7 @@ public class WatcherClient : IWatcherClient
     /// Synchronously awaits <see cref="Observe"/>
     /// </summary>
     /// <returns></returns>
-    public IObservable<LatestChaptersEvent?> ObserveSync()
+    public IObservable<FetchedManga?> ObserveSync()
     {
         var observer = Observe();
         observer.Wait();
@@ -54,9 +55,9 @@ public class WatcherClient : IWatcherClient
     /// Creates an observable for the latest chapters
     /// </summary>
     /// <returns></returns>
-    public Task<IObservable<LatestChaptersEvent?>> Observe()
+    public Task<IObservable<FetchedManga?>> Observe()
     {
-        return _redis.Observe<LatestChaptersEvent>(LATEST_CHAPTERS_KEY);
+        return _redis.Observe<FetchedManga>(LATEST_CHAPTERS_KEY);
     }
 
     /// <summary>
@@ -67,6 +68,7 @@ public class WatcherClient : IWatcherClient
     public static IWatcherClient Create<T>() where T : class, IRedisConfig
     {
         return new ServiceCollection()
+            .AddJson()
             .AddRedis<T>()
             .AddSerilog()
             .AddWatcherClient()
@@ -82,6 +84,7 @@ public class WatcherClient : IWatcherClient
     public static IWatcherClient Create(IRedisConfig config)
     {
         return new ServiceCollection()
+            .AddJson()
             .AddRedis(config)
             .AddSerilog()
             .AddWatcherClient()

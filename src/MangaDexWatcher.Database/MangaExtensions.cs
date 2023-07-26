@@ -103,7 +103,7 @@ public static partial class MangaExtensions
             Url = $"{MANGA_DEX_HOME_URL}/title/{id}",
             Cover = coverUrl,
             //Get the english description (if available) from the given manga
-            Description = manga.Attributes.Description.PreferedOrFirst(t => t.Key == DEFAULT_LANGUAGE).Value,
+            Description = manga.Attributes.Description.PreferedOrFirst(t => t.Key == DEFAULT_LANGUAGE).Value ?? "",
             //Gets all of the alternative titles from the given manga
             AltTitles = manga.Attributes.AltTitles.SelectMany(t => t.Values).Distinct().ToArray(),
             //Get all of the available tags from the given manga, defaulting to the english name when available
@@ -172,7 +172,48 @@ public static partial class MangaExtensions
             ExternalUrl = chapter.Attributes.ExternalUrl,
             Attributes = GetChapterAttributes(chapter).ToArray(),
             Language = chapter.Attributes.TranslatedLanguage ?? DEFAULT_LANGUAGE,
+            State = ChapterState.NotIndexed,
         };
+    }
+
+    /// <summary>
+    /// Gets the title of the chapter
+    /// </summary>
+    /// <param name="chapter">The chapter to get the title from</param>
+    /// <returns>The title of the chapter</returns>
+    public static string Title(this Chapter chapter)
+    {
+        return chapter.Attributes?.Title ?? chapter.Attributes?.Chapter ?? chapter.Id?.ToString() ?? "Unknown";
+    }
+
+    /// <summary>
+    /// Gets the title of the fetched manga
+    /// </summary>
+    /// <param name="manga">The manga that was fetched</param>
+    /// <returns>The title of the manga</returns>
+    public static string Title(this FetchedManga manga)
+    {
+        return manga.Cache?.Manga?.Title ?? manga.Manga.Attributes?.Title?.PreferedOrFirst(t => t.Key == "en").Value ?? manga.Manga.Id?.ToString() ?? "Unknown";
+    }
+
+    /// <summary>
+    /// Gets the ID of the chapter
+    /// </summary>
+    /// <param name="chapter">The chapter to get the ID from</param>
+    /// <returns>The ID of the chapter</returns>
+    public static string Id(this Chapter chapter)
+    {
+        return chapter.Id?.ToString() ?? "Unknown";
+    }
+
+    /// <summary>
+    /// Gets the Id of the fetched manga
+    /// </summary>
+    /// <param name="manga">The manga that was fetched</param>
+    /// <returns>The Id of the manga</returns>
+    public static string Id(this FetchedManga manga)
+    {
+        return manga.Cache?.Manga?.SourceId ?? manga.Manga.Id ?? "Unknown";
     }
 
     [GeneratedRegex("[^a-zA-Z0-9 ]")]

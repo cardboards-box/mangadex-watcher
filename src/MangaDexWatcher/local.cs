@@ -1,0 +1,2 @@
+﻿global using EventStream = System.Collections.Generic.IAsyncEnumerable<MangaDexWatcher.Latest.IEventIndicator>;
+global using EventEnumer = System.Collections.Generic.IAsyncEnumerator<MangaDexWatcher.Latest.IEventIndicator>;

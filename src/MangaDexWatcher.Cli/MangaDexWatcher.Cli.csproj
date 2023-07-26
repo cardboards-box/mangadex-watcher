@@ -12,6 +12,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\MangaDexWatcher.Client\MangaDexWatcher.Client.csproj" />
 	  <ProjectReference Include="..\MangaDexWatcher\MangaDexWatcher.csproj" />
 	</ItemGroup>
 

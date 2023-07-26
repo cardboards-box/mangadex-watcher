@@ -22,7 +22,7 @@ public class DbManga : DbObject
     public string Cover { get; set; } = string.Empty;
 
     [JsonPropertyName("description")]
-    public string Description { get; set; } = string.Empty;
+    public string? Description { get; set; } = string.Empty;
 
     [JsonPropertyName("altTitles"), Column("alt_titles")]
     public string[] AltTitles { get; set; } = Array.Empty<string>();

@@ -8,6 +8,7 @@ public static class Extensions
     public static IDependencyBuilder AddDatabase(this IDependencyBuilder builder)
     {
         builder
+            .Type<DbMangaAttribute>("manga_attribute")
             .Model<DbMangaAttribute>()
             .Model<DbManga>()
             .Model<DbMangaChapter>();

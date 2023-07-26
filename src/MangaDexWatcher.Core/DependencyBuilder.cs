@@ -1,12 +1,15 @@
-﻿namespace MangaDexWatcher.Core;
+﻿using Npgsql;
+using Serilog;
+
+namespace MangaDexWatcher.Core;
 
 public interface IDependencyBuilder
 {
-    IDependencyBuilder AddServices(Func<IServiceCollection, Task> services);
-
     IDependencyBuilder AddServices(Action<IServiceCollection> services);
 
     IDependencyBuilder Model<T>();
+
+    IDependencyBuilder Type<T>(string? name = null);
 
     IDependencyBuilder JsonModel<T>(Func<T> @default);
 
@@ -26,28 +29,26 @@ public interface IDependencyBuilder
 
 public class DependencyBuilder : IDependencyBuilder
 {
-    private readonly List<Func<IServiceCollection, Task>> _services = new();
+    private readonly List<Action<IServiceCollection>> _services = new();
     private readonly List<Action<IConventionBuilder>> _conventions = new();
     private readonly List<Action<ITypeMapBuilder>> _dbMapping = new();
+    private readonly List<Action<NpgsqlDataSourceBuilder>> _connections = new();
 
-    public IDependencyBuilder AddServices(Func<IServiceCollection, Task> services)
+    public IDependencyBuilder AddServices(Action<IServiceCollection> services)
     {
         _services.Add(services);
         return this;
     }
 
-    public IDependencyBuilder AddServices(Action<IServiceCollection> services)
-    {
-        return AddServices((s) => 
-        {
-            services(s);
-            return Task.CompletedTask;
-        });
-    }
-
     public IDependencyBuilder Model<T>()
     {
         _conventions.Add(x => x.Entity<T>());
+        return this;
+    }
+
+    public IDependencyBuilder Type<T>(string? name = null)
+    {
+        _connections.Add(x => x.MapComposite<T>(name));
         return this;
     }
 
@@ -79,17 +80,25 @@ public class DependencyBuilder : IDependencyBuilder
         return AddServices(x => x.AddSingleton(instance));
     }
 
-    public async Task RegisterServices(IServiceCollection services)
+    public void RegisterServices(IServiceCollection services)
     {
         services
             .AddJson()
             .AddCardboardHttp()
-            .AddSerilog()
+            .AddSerilog(c =>
+            {
+                c
+                 .MinimumLevel.Override("System.Net.Http.HttpClient", Serilog.Events.LogEventLevel.Error)
+                 .MinimumLevel.Override("Microsoft.Extensions.Http.DefaultHttpClientFactory", Serilog.Events.LogEventLevel.Error)
+                 .WriteTo.Console()
+                 .WriteTo.File(Path.Combine("logs", "log.txt"), rollingInterval: RollingInterval.Day)
+                 .MinimumLevel.Debug();
+            })
             .AddMangaDex(string.Empty)
             .AddRedis();
 
         foreach (var action in _services)
-            await action(services);
+            action(services);
     }
 
     public void RegisterDatabase(IServiceCollection services)
@@ -127,13 +136,21 @@ public class DependencyBuilder : IDependencyBuilder
                          mapping(a);
                  });
 
-                c.AddPostgres<SqlConfig>(a => a.OnInit(con => ExecuteFiles(con, "*.sql")));
+                c.AddPostgres<SqlConfig>(a =>
+                {
+                    a.OnCreate(con =>
+                    {
+                        _connections.Each(act => act(con));
+                        return Task.CompletedTask;
+                    });
+                    a.OnInit(con => ExecuteFiles(con, "*.sql"));
+                });
             });
     }
 
-    public async Task Build(IServiceCollection services)
+    public void Build(IServiceCollection services)
     {
         RegisterDatabase(services);
-        await RegisterServices(services);
+        RegisterServices(services);
     }
 }

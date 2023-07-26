@@ -13,6 +13,8 @@ public interface IDbService
     Task<MangaCache[]> DetermineExisting(string[] chapterIds);
 
     Task<DbManga[]> ByIds(string[] ids);
+
+    Task<DateTime?> LastCheck();
 }
 
 public class DbService : IDbService
@@ -63,4 +65,10 @@ WHERE
     }
 
     public Task<DbManga[]> ByIds(string[] ids) => _manga.ByIds(ids);
+
+    public Task<DateTime?> LastCheck()
+    {
+        const string QUERY = "SELECT MAX(created_at) FROM manga_chapter_cache;";
+        return _sql.ExecuteScalar<DateTime?>(QUERY);
+    }
 }

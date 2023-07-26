@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 		<Title>MangaDexWatcher.Client</Title>
 		<Authors>Cardboard</Authors>
-		<Version>1.0.0</Version>
+		<Version>1.0.1</Version>
 		<Description>
 			A client for watching manga via redis and the MangaDexWatcher
 		</Description>

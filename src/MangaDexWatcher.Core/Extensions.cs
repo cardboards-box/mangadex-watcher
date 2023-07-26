@@ -2,11 +2,12 @@
 
 public static class Extensions
 {
-    public static Task AddServices(this IServiceCollection services,
+    public static IServiceCollection AddServices(this IServiceCollection services,
         Action<IDependencyBuilder> configure)
     {
         var bob = new DependencyBuilder();
         configure(bob);
-        return bob.Build(services);
+        bob.Build(services);
+        return services;
     }
 }

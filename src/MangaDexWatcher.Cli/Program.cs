@@ -3,15 +3,13 @@ using MangaDexWatcher.Cli;
 using MangaDexWatcher.Core;
 using MangaDexWatcher.Database;
 
-var services = new ServiceCollection();
-
-await services.AddServices(c =>
-{
-    c.AddWatcher()
-     .AddDatabase();
-});
-
-return await services
+return await new ServiceCollection()
+    .AddAppSettings()
+    .AddServices(c =>
+    {
+        c.AddWatcher()
+         .AddDatabase();
+    })
     .Cli(args, c =>
     {
         c.Add<WatchVerb>();

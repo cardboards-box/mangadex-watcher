@@ -1,6 +1,6 @@
 ﻿namespace MangaDexWatcher.Shared;
 
-[Table("manga_cache")]
+[Table("manga_chapter_cache")]
 public class DbMangaChapter : DbObject
 {
     [JsonPropertyName("mangaId"), Column("manga_id", Unique = true)]
@@ -32,4 +32,7 @@ public class DbMangaChapter : DbObject
 
     [JsonPropertyName("attributes")]
     public DbMangaAttribute[] Attributes { get; set; } = Array.Empty<DbMangaAttribute>();
+
+    [JsonPropertyName("state")]
+    public ChapterState State { get; set; } = ChapterState.NotIndexed;
 }
