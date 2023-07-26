@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Title>MangaDexWatcher.Client</Title>
+		<Authors>Cardboard</Authors>
+		<Version>1.0.0</Version>
+		<Description>
+			A client for watching manga via redis and the MangaDexWatcher
+		</Description>
+		<PackageIcon>icon.jpg</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/cardboards-box/mangadex-watcher</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>MangaDex;MangaDexSharp;Cardboardbox</PackageTags>
+		<PackageProjectUrl>https://github.com/cardboards-box/mangadex-watcher</PackageProjectUrl>
+		<Copyright>MIT Licensed</Copyright>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<None Include="..\..\icon.jpg">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CardboardBox.Setup" Version="2.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\MangaDexWatcher.Shared\MangaDexWatcher.Shared.csproj" />
+	</ItemGroup>
+
+</Project>

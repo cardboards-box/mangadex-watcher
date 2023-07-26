@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33815.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MangaDexWatcher.Cli", "MangaDexWatcher.Cli\MangaDexWatcher.Cli.csproj", "{1718998B-172B-4F95-B71B-14C9FC6BE469}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MangaDexWatcher.Database", "MangaDexWatcher.Database\MangaDexWatcher.Database.csproj", "{439F4562-E4D3-48A8-BE00-FC38DE322A22}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MangaDexWatcher.Core", "MangaDexWatcher.Core\MangaDexWatcher.Core.csproj", "{0F2016D3-7C9C-4556-BEDF-9789E0187C2C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MangaDexWatcher", "MangaDexWatcher\MangaDexWatcher.csproj", "{42A78C78-3FFE-4EC0-9559-95F0D7912F5A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MangaDexWatcher.Shared", "MangaDexWatcher.Shared\MangaDexWatcher.Shared.csproj", "{C1E95D0B-42B9-496F-9920-37E00A050B71}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MangaDexWatcher.Client", "MangaDexWatcher.Client\MangaDexWatcher.Client.csproj", "{C28C9581-5AC7-4A26-987C-E73E9A52C98F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7DF5B5E2-DDC9-47C6-9B20-81EA210481E5}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\mail.yml = ..\.github\workflows\mail.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1718998B-172B-4F95-B71B-14C9FC6BE469}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1718998B-172B-4F95-B71B-14C9FC6BE469}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1718998B-172B-4F95-B71B-14C9FC6BE469}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1718998B-172B-4F95-B71B-14C9FC6BE469}.Release|Any CPU.Build.0 = Release|Any CPU
+		{439F4562-E4D3-48A8-BE00-FC38DE322A22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{439F4562-E4D3-48A8-BE00-FC38DE322A22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{439F4562-E4D3-48A8-BE00-FC38DE322A22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{439F4562-E4D3-48A8-BE00-FC38DE322A22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F2016D3-7C9C-4556-BEDF-9789E0187C2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F2016D3-7C9C-4556-BEDF-9789E0187C2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F2016D3-7C9C-4556-BEDF-9789E0187C2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F2016D3-7C9C-4556-BEDF-9789E0187C2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42A78C78-3FFE-4EC0-9559-95F0D7912F5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42A78C78-3FFE-4EC0-9559-95F0D7912F5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42A78C78-3FFE-4EC0-9559-95F0D7912F5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42A78C78-3FFE-4EC0-9559-95F0D7912F5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1E95D0B-42B9-496F-9920-37E00A050B71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1E95D0B-42B9-496F-9920-37E00A050B71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1E95D0B-42B9-496F-9920-37E00A050B71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1E95D0B-42B9-496F-9920-37E00A050B71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C28C9581-5AC7-4A26-987C-E73E9A52C98F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C28C9581-5AC7-4A26-987C-E73E9A52C98F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C28C9581-5AC7-4A26-987C-E73E9A52C98F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C28C9581-5AC7-4A26-987C-E73E9A52C98F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {227AA966-C903-4DFB-A595-47FC3AA3496E}
+	EndGlobalSection
+EndGlobal
