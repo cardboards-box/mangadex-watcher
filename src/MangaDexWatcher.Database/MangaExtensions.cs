@@ -26,7 +26,7 @@ public static partial class MangaExtensions
     public static string GetHashId(this DbManga manga)
     {
         var regex = StripNonAlphaNumeric();
-        return regex.Replace($"{manga.Provider} {manga.Title}", "").ToLower();
+        return regex.Replace($"{manga.Provider} {manga.Title}", "").Replace(" ", "-").ToLower();
     }
 
     /// <summary>

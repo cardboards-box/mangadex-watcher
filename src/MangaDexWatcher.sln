@@ -17,7 +17,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MangaDexWatcher.Client", "M
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7DF5B5E2-DDC9-47C6-9B20-81EA210481E5}"
 	ProjectSection(SolutionItems) = preProject
-		..\.github\workflows\mail.yml = ..\.github\workflows\mail.yml
+		..\.gitignore = ..\.gitignore
+		..\.github\workflows\build-client.yml = ..\.github\workflows\build-client.yml
+		..\.github\workflows\build-exe.yaml = ..\.github\workflows\build-exe.yaml
+		..\Dockerfile = ..\Dockerfile
+		..\icon.jpg = ..\icon.jpg
+		..\LICENSE = ..\LICENSE
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Global
