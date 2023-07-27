@@ -15,6 +15,10 @@ public interface IDbService
     Task<DbManga[]> ByIds(string[] ids);
 
     Task<DateTime?> LastCheck();
+
+    Task SetChapterState(long id, ChapterState state);
+
+    Task<MangaCache[]> ChaptersByStates(int limit, params ChapterState[] states);
 }
 
 public class DbService : IDbService
@@ -71,4 +75,8 @@ WHERE
         const string QUERY = "SELECT MAX(created_at) FROM manga_chapter_cache;";
         return _sql.ExecuteScalar<DateTime?>(QUERY);
     }
+
+    public Task SetChapterState(long id, ChapterState state) => _chapter.SetState(id, state);
+
+    public Task<MangaCache[]> ChaptersByStates(int limit, params ChapterState[] states) => _chapter.ByStates(limit, states);
 }

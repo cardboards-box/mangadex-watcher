@@ -34,5 +34,5 @@ public class DbMangaChapter : DbObject
     public DbMangaAttribute[] Attributes { get; set; } = Array.Empty<DbMangaAttribute>();
 
     [JsonPropertyName("state")]
-    public ChapterState State { get; set; } = ChapterState.NotIndexed;
+    public int State { get; set; } = (int)ChapterState.NotIndexed;
 }

@@ -172,7 +172,7 @@ public static partial class MangaExtensions
             ExternalUrl = chapter.Attributes.ExternalUrl,
             Attributes = GetChapterAttributes(chapter).ToArray(),
             Language = chapter.Attributes.TranslatedLanguage ?? DEFAULT_LANGUAGE,
-            State = ChapterState.NotIndexed,
+            State = (int)ChapterState.NotIndexed,
         };
     }
 

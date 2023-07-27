@@ -1,4 +1,4 @@
-name: bot
+name: watcher
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
     tags: [ v* ]
 
 env:
-  IMAGE_NAME: exe
+  IMAGE_NAME: watcher
 
 jobs:
 
@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build image
-        run: docker build . --file "./Dockerfile" --tag $IMAGE_NAME
+        run: docker build . --file "./${IMAGE_NAME}.Dockerfile" --tag $IMAGE_NAME
 
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
