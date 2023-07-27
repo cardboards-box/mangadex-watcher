@@ -398,3 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 /MangaDexWatcher/MangaDexWatcher.Cli/Properties/launchSettings.json
 /src/MangaDexWatcher.Cli/Properties/launchSettings.json
+/src/MangaDexWatcher.Api/Properties/launchSettings.json
