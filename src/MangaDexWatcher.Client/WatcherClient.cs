@@ -1,5 +1,6 @@
 ﻿namespace MangaDexWatcher.Client;
 
+using CardboardBox.Http;
 using CardboardBox.Json;
 using StackExchange.Redis;
 using static Constants;
@@ -13,6 +14,30 @@ public interface IWatcherClient
     /// Watches for the latest chapters
     /// </summary>
     IObservable<FetchedManga> Watch { get; }
+
+    /// <summary>
+    /// Fetches the latest chapters that have not been index from the API
+    /// </summary>
+    /// <param name="baseUrl">The base URL for the API</param>
+    /// <param name="count">The max number of records returned</param>
+    /// <returns></returns>
+    Task<MangaCache[]> GetNotIndexed(string baseUrl, int count = 100);
+
+    /// <summary>
+    /// Mark the given chapter as indexed
+    /// </summary>
+    /// <param name="baseUrl">The base URL for the API</param>
+    /// <param name="id">The ID of the chapter</param>
+    /// <returns></returns>
+    Task MarkIndex(string baseUrl, long id);
+
+    /// <summary>
+    /// Mark the given chapter as errored
+    /// </summary>
+    /// <param name="baseUrl">The base URL for the API</param>
+    /// <param name="id">The ID of the chapter</param>
+    /// <returns></returns>
+    Task MarkErrored(string baseUrl, long id);
 }
 
 /// <summary>
@@ -22,6 +47,7 @@ public class WatcherClient : IWatcherClient
 {
     private IObservable<FetchedManga>? _watch;
     private readonly IRedisService _redis;
+    private readonly IApiService _api;
 
     /// <summary>
     /// Watches for the latest chapters
@@ -35,9 +61,13 @@ public class WatcherClient : IWatcherClient
     /// The implementation of the <see cref="IWatcherClient"/>
     /// </summary>
     /// <param name="redis">The service for interacting with redis</param>
-    public WatcherClient(IRedisService redis)
+    /// <param name="api">The service for interacting with HTTP APIs</param>
+    public WatcherClient(
+        IRedisService redis,
+        IApiService api)
     {
         _redis = redis;
+        _api = api;
     }
 
     /// <summary>
@@ -61,19 +91,64 @@ public class WatcherClient : IWatcherClient
     }
 
     /// <summary>
+    /// Combines the given URL parts into a single URL
+    /// </summary>
+    /// <param name="baseUrl">The base URL for the API</param>
+    /// <param name="part">Route and query parameters for the URL</param>
+    /// <returns>The combined URL parts</returns>
+    public string MarshalUrl(string baseUrl, string part)
+    {
+        baseUrl = baseUrl.TrimEnd('/');
+        part = part.TrimStart('/');
+        return $"{baseUrl}/{part}";
+    }
+
+    /// <summary>
+    /// Fetches the latest chapters that have not been index from the API
+    /// </summary>
+    /// <param name="baseUrl">The base URL for the API</param>
+    /// <param name="count">The max number of records returned</param>
+    /// <returns></returns>
+    public async Task<MangaCache[]> GetNotIndexed(string baseUrl, int count = 100)
+    {
+        var url = MarshalUrl(baseUrl, $"api/chapters/not-indexed?length={count}");
+        return await _api.Get<MangaCache[]>(url) ?? Array.Empty<MangaCache>();
+    }
+
+    /// <summary>
+    /// Mark the given chapter as indexed
+    /// </summary>
+    /// <param name="baseUrl">The base URL for the API</param>
+    /// <param name="id">The ID of the chapter</param>
+    /// <returns></returns>
+    public Task MarkIndex(string baseUrl, long id)
+    {
+        var url = MarshalUrl(baseUrl, $"api/chapter/{id}/indexed");
+        return _api.Create(url).Result();
+    }
+
+    /// <summary>
+    /// Mark the given chapter as errored
+    /// </summary>
+    /// <param name="baseUrl">The base URL for the API</param>
+    /// <param name="id">The ID of the chapter</param>
+    /// <returns></returns>
+    public Task MarkErrored(string baseUrl, long id)
+    {
+        var url = MarshalUrl(baseUrl, $"api/chapter/{id}/errored");
+        return _api.Create(url).Result();
+    }
+
+    /// <summary>
     /// Creates an instance of the watcher client with the given configuration
     /// </summary>
     /// <typeparam name="T">The configuration type</typeparam>
     /// <returns>The watcher client</returns>
     public static IWatcherClient Create<T>() where T : class, IRedisConfig
     {
-        return new ServiceCollection()
-            .AddJson()
-            .AddRedis<T>()
-            .AddSerilog()
-            .AddWatcherClient()
-            .BuildServiceProvider()
-            .GetRequiredService<IWatcherClient>();
+        return AddRequiredServices(
+            new ServiceCollection()
+                .AddRedis<T>());
     }
 
     /// <summary>
@@ -83,13 +158,9 @@ public class WatcherClient : IWatcherClient
     /// <returns>The watcher client</returns>
     public static IWatcherClient Create(IRedisConfig config)
     {
-        return new ServiceCollection()
-            .AddJson()
-            .AddRedis(config)
-            .AddSerilog()
-            .AddWatcherClient()
-            .BuildServiceProvider()
-            .GetRequiredService<IWatcherClient>();
+        return AddRequiredServices(
+            new ServiceCollection()
+                .AddRedis(config));
     }
 
     /// <summary>
@@ -102,6 +173,22 @@ public class WatcherClient : IWatcherClient
     public static IWatcherClient Create(string conString, string dataPrefix = "manga:data:", string eventPrefix = "manga:event:")
     {
         return Create(new StaticRedisConfig(conString, eventPrefix, dataPrefix));
+    }
+
+    /// <summary>
+    /// Adds all of the required services to the service collection and creates an instance of the <see cref="IWatcherClient"/>
+    /// </summary>
+    /// <param name="services">The service collection to get the client from</param>
+    /// <returns>The instance of the <see cref="IWatcherClient"/></returns>
+    private static IWatcherClient AddRequiredServices(IServiceCollection services)
+    {
+        return services
+            .AddJson()
+            .AddCardboardHttp()
+            .AddSerilog()
+            .AddWatcherClient()
+            .BuildServiceProvider()
+            .GetRequiredService<IWatcherClient>();
     }
 
     private class StaticRedisConfig : IRedisConfig
